@@ -12,3 +12,7 @@ Script takes no argument. Run as it is: <br>
 
 ## Requires: 
 * python-requests
+
+## Creds:
+
+For an amazing job by Elin Lütz, creating https://coronakartan.se!
