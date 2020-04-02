@@ -4,7 +4,7 @@ A simple check that monitors the Corona-situation in Sweden. <br>
 Current metrics are: <br>
 * Deaths
 * Confirmed
-* Hospitalized.
+* Hospitalized
 
 ## Usage: 
 Script takes no argument. Run as it is: <br>
