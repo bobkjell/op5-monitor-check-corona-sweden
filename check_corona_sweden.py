@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python2.7
 
 import csv, requests
 
@@ -7,8 +7,16 @@ corona_deaths_url = "https://raw.githubusercontent.com/elinlutz/gatsby-map/maste
 corona_confirmed_url = "https://raw.githubusercontent.com/elinlutz/gatsby-map/master/src/data/time_series/time_series_confimed-confirmed.csv"
 
 # HTTP requests
-corona_deaths_req = requests.get(corona_deaths_url)
-corona_confirmed_req = requests.get(corona_confirmed_url)
+try:
+  corona_deaths_req = requests.get(corona_deaths_url)
+  corona_deaths_req.raise_for_status()
+except requests.exceptions.HTTPError as err:
+  raise SystemExit(err)
+try:
+  corona_confirmed_req = requests.get(corona_confirmed_url)
+  corona_confirmed_req.raise_for_status()
+except requests.exceptions.HTTPError as err:
+  raise SystemExit(err)
 
 # Iterate CSV
 def parse_csv(corona_csv):
@@ -43,4 +51,4 @@ corona_at_icu_total = extract_from_csv(corona_at_icu)
 corona_total_hospitalized = int(corona_at_hospital_total) + int(corona_at_icu_total)
 
 # Print Naemon style
-print "INFO: Deaths: " + str(corona_total_deaths) + " Confirmed: " + str(corona_total_confirmed) + " Hospitalized: " + str(corona_total_hospitalized) + " | deaths=" + str(corona_total_deaths) + " confirmed=" + str(corona_total_confirmed) + " hospitalized=" + str(corona_total_hospitalized)
+print ("INFO: Deaths: " + str(corona_total_deaths) + " Confirmed: " + str(corona_total_confirmed) + " Hospitalized: " + str(corona_total_hospitalized) + " | deaths=" + str(corona_total_deaths) + " confirmed=" + str(corona_total_confirmed) + " hospitalized=" + str(corona_total_hospitalized))
