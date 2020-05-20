@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 import csv, requests
 
@@ -7,16 +7,8 @@ corona_deaths_url = "https://raw.githubusercontent.com/elinlutz/gatsby-map/maste
 corona_confirmed_url = "https://raw.githubusercontent.com/elinlutz/gatsby-map/master/src/data/time_series/time_series_confimed-confirmed.csv"
 
 # HTTP requests
-try:
-  corona_deaths_req = requests.get(corona_deaths_url)
-  corona_deaths_req.raise_for_status()
-except requests.exceptions.HTTPError as err:
-  raise SystemExit(err)
-try:
-  corona_confirmed_req = requests.get(corona_confirmed_url)
-  corona_confirmed_req.raise_for_status()
-except requests.exceptions.HTTPError as err:
-  raise SystemExit(err)
+corona_deaths_req = requests.get(corona_deaths_url)
+corona_confirmed_req = requests.get(corona_confirmed_url)
 
 # Iterate CSV
 def parse_csv(corona_csv):
@@ -38,17 +30,19 @@ for row in corona_deaths_csv:
   corona_total_deaths=(row["Today"])
 corona_total_deaths = extract_from_csv(corona_total_deaths)
 
-# Get number ofconfirmed & hospitalized
+# Get number of confirmed, hospitalized & tested
 for row in corona_confirmed_csv:
   corona_total_confirmed=(row["Today"])
   corona_at_hospital=(row["At_Hospital"])
   corona_at_icu=(row["At_ICU"])
+  corona_tested=(row["Tests"])
 
 corona_total_confirmed = extract_from_csv(corona_total_confirmed)
 corona_at_hospital_total = extract_from_csv(corona_at_hospital)
 corona_at_icu_total = extract_from_csv(corona_at_icu)
+corona_tested = extract_from_csv(corona_tested)
 # Calculate number of hospitalized (hospital + icu)
 corona_total_hospitalized = int(corona_at_hospital_total) + int(corona_at_icu_total)
 
 # Print Naemon style
-print ("INFO: Deaths: " + str(corona_total_deaths) + " Confirmed: " + str(corona_total_confirmed) + " Hospitalized: " + str(corona_total_hospitalized) + " | deaths=" + str(corona_total_deaths) + " confirmed=" + str(corona_total_confirmed) + " hospitalized=" + str(corona_total_hospitalized))
+print "INFO: Deaths: " + str(corona_total_deaths) + " Confirmed: " + str(corona_total_confirmed) + " Hospitalized: " + str(corona_total_hospitalized) + " Tested: " + str(corona_tested) + " | deaths=" + str(corona_total_deaths) + " confirmed=" + str(corona_total_confirmed) + " hospitalized=" + str(corona_total_hospitalized) + " tested=" + str(corona_tested)

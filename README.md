@@ -5,6 +5,7 @@ Current metrics are: <br>
 * Deaths
 * Confirmed
 * Hospitalized
+* Tested
 
 ## Usage: 
 Script takes no argument. Run as it is: <br>
